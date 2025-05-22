@@ -45,77 +45,108 @@ export default function WhatWeOffer() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="w-full max-w-5xl mx-auto mt-2 md:mt-5 px-2 md:px-0">
+    <section className="w-full max-w-5xl mx-auto mt-2 md:mt-5 px-4 md:px-0">
       <h2 className="text-center text-lg md:text-xl font-semibold mb-8 tracking-widest">WHAT WE OFFER</h2>
-      <div className="flex flex-col">
+      <div className="flex flex-col space-y-16 md:space-y-24">
         {offers.map((offer, idx) => {
           const isOpen = openIndex === idx;
           return (
-            <div key={offer.number} className="relative mb-6">
-              {/* Container with clipping */}
+            <div key={offer.number} className="relative overflow-hidden">
+              {/* Main container with number and title */}
               <div className="relative">
-                {/* Number container with overflow hidden */}
-                <div className="relative overflow-hidden" style={{ height: isOpen ? 'auto' : '85%' }}>
-                  {/* Large Number */}
-                  <span
-                    className="font-extrabold text-black select-none whitespace-nowrap text-[4rem] md:text-[8rem] lg:text-[300px] leading-none block transition-transform duration-500"
-                    style={{ lineHeight: 0.8 }}
-                  >
-                    {offer.number}
-                  </span>
-                </div>
-                
-                {/* Button with title */}
-                <button
-                  className="absolute bottom-0 left-0 right-0 flex items-center justify-between pl-4 md:pl-8 pr-2 md:pr-8 pb-1 md:pb-2 focus:outline-none z-20"
-                  onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  aria-expanded={isOpen}
+                {/* Big Number */}
+                <span 
+                  className="font-extrabold text-black select-none whitespace-nowrap text-[5rem] md:text-[8rem] lg:text-[12rem] block" 
+                  style={{lineHeight: "0.85"}}
                 >
-                  <span className="text-lg md:text-2xl lg:text-[40px] font-bold text-black tracking-wide select-none translate-y-[-5px] md:translate-y-[-10px]">
-                    {offer.title}
-                  </span>
-                  <span
-                    className="ml-4 w-4 h-4 lg:h-8 lg:w-8 lg:pb-1.5 lg:text-3xl text-center flex items-center justify-center bg-black font-bold text-white rounded-full select-none transition-transform duration-300 translate-y-[-5px] md:translate-y-[-10px]"
-                  >
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </button>
+                  {offer.number}
+                </span>
                 
-                {/* Animated Border - now spans entire width and animates down */}
+                {/* Title and Toggle Button - now properly constrained */}
                 <div 
-                  className={`absolute left-0 right-0 bg-gray-300 transition-all duration-500 ease-in-out z-10 border-b-2 border-gray-300`}
-                  style={{
-                    top: isOpen ? 'auto' : '85%',
-                    bottom: isOpen ? '0' : 'auto', 
-                    width: '100%',
-                    transform: `translateY(${isOpen ? '100%' : '0'})`,
-                  }}
-                />
+                  className={`absolute left-[40%] sm:left-[50%] right-4 transition-all duration-500 ease-in-out ${
+                    isOpen ? 'top-0' : 'top-[70%] -translate-y-1/2'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 md:gap-4">
+                    <h3 className="text-xs md:text-2xl lg:text-3xl font-bold tracking-wide whitespace-nowrap truncate">
+                      {offer.title}
+                    </h3>
+                    <button
+                      onClick={() => setOpenIndex(isOpen ? null : idx)}
+                      aria-expanded={isOpen}
+                      className="flex-shrink-0 h-5 w-5 md:h-8 md:w-8 rounded-full bg-black text-white flex items-center justify-center focus:outline-none"
+                    >
+                      {isOpen ? '−' : '+'}
+                    </button>
+                  </div>
+                </div>
               </div>
               
-              {/* Reveal Content with increased z-index */}
-              <div
-                className={`relative z-30 transition-all duration-500 ease-in-out overflow-hidden ${
-                  isOpen ? 'max-h-96 opacity-100 mt-8' : 'max-h-0 opacity-0 mt-0'
+              {/* Description Text - closer to title on mobile */}
+              <div 
+                className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                  isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                 }`}
+                style={{
+                  position: 'absolute',
+                  top: '3.5rem',
+                  left: '40%',
+                  right: '1rem',
+                  transitionDelay: isOpen ? '200ms' : '0ms'
+                }}
               >
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_220px] items-center gap-6 md:gap-12 px-2 md:px-16 py-4">
-                  <div>
-                    <p className="text-base md:text-lg text-gray-700 mb-2">{offer.description}</p>
+                <p className="text-xs md:text-base text-justify text-gray-700 leading-tight md:leading-normal">
+                  We offer visually compelling and <span className="text-blue-500">brand-centric</span> {offer.title.toLowerCase()} services that communicate your message with clarity and creativity. From logos and posters to full-scale branding packages, we deliver designs that leave a lasting impression.
+                </p>
+              </div>
+              
+              {/* Images Container - positioned closer on mobile */}
+              <div 
+                className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                  isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
+                }`}
+                style={{
+                  position: 'absolute',
+                  top: '10rem',
+                  left: 0,
+                  right: 0,
+                  transitionDelay: isOpen ? '300ms' : '0ms'
+                }}
+              >
+                <div className="flex gap-2 md:gap-4 w-full">
+                  {/* Left image */}
+                  <div className="w-[50%] h-20 md:h-36 rounded-lg overflow-hidden shadow-lg bg-gray-100">
+                    <Image
+                      src="/assets/offer.png"
+                      alt={offer.title}
+                      width={400}
+                      height={300}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
-                  <div className="justify-self-center md:justify-self-end">
-                    <div className="w-44 h-28 md:w-56 md:h-36 rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-                      <Image
-                        src="/assets/offer.png"
-                        alt={offer.title}
-                        width={224}
-                        height={144}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
+                  {/* Right image */}
+                  <div className="flex-1 h-20 md:h-36 rounded-lg overflow-hidden shadow-lg bg-gray-100">
+                    <Image
+                      src="/assets/offer.png"
+                      alt={offer.title}
+                      width={400}
+                      height={300}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
                 </div>
               </div>
+              
+              {/* Horizontal Line - starts lower */}
+              <div 
+                className={`w-full h-px bg-gray-300 transition-all duration-500 ease-in-out border-t border-gray-300 absolute ${
+                  isOpen ? 'top-[calc(8rem+6rem)] md:top-[calc(12rem+9.5rem)]' : 'top-[80%]'
+                }`}
+              />
+              
+              {/* Spacer for expanded state */}
+              <div className={`transition-all duration-500 ease-in-out ${isOpen ? 'h-60 md:h-96' : 'h-0'}`} />
             </div>
           );
         })}
