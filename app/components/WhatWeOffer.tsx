@@ -64,12 +64,12 @@ export default function WhatWeOffer() {
                 
                 {/* Title and Toggle Button - now properly constrained */}
                 <div 
-                  className={`absolute left-[40%] sm:left-[50%] right-4 transition-all duration-500 ease-in-out ${
+                  className={`absolute left-[40%] sm:left-[50%] right-4 transition-all duration-500 ease-in-out z-[1000] ${
                     isOpen ? 'top-0' : 'top-[70%] -translate-y-1/2'
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-2 md:gap-4">
-                    <h3 className="text-xs md:text-2xl lg:text-3xl font-bold tracking-wide whitespace-nowrap truncate">
+                  <div className="flex items-center justify-between gap-2 mb-10 md:gap-4">
+                    <h3 className="text-xs md:text-2xl lg:text-3xl font-normal tracking-wide whitespace-normal break-words max-w-[80%]">
                       {offer.title}
                     </h3>
                     <button
@@ -85,7 +85,7 @@ export default function WhatWeOffer() {
               
               {/* Description Text - closer to title on mobile */}
               <div 
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                className={`transition-all duration-500 ease-in-out overflow-hidden mt-5 ${
                   isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                 }`}
                 style={{
@@ -116,7 +116,7 @@ export default function WhatWeOffer() {
               >
                 <div className="flex gap-2 md:gap-4 w-full">
                   {/* Left image */}
-                  <div className="w-[50%] h-20 md:h-36 rounded-lg overflow-hidden shadow-lg bg-gray-100">
+                  <div className="w-[50%] md:w-[60%] h-20 md:h-36 rounded-lg overflow-hidden shadow-lg bg-gray-100">
                     <Image
                       src="/assets/offer.png"
                       alt={offer.title}
